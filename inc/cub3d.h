@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: muhabin- <muhabin-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: muhabin- <muhabin-@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 19:14:14 by ayeap             #+#    #+#             */
-/*   Updated: 2025/05/28 21:30:49 by muhabin-         ###   ########.fr       */
+/*   Updated: 2025/05/30 09:53:26 by muhabin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,22 @@
 # include <unistd.h> // write
 # include <fcntl.h> // open
 # include <string.h> // strerror
+
+//Configure
+# define NORTH		1
+# define SOUTH		2
+# define WEST		3
+# define EAST		4
+# define FLOOR		5
+# define CEILING	6
+
+//Type configure
+# define TEX		1
+# define COL		2
+
+//Files type
+# define CUB		1
+# define XPM		2
 
 typedef struct s_map
 {

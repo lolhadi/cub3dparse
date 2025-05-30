@@ -3,19 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   map_parsing.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: muhabin- <muhabin-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: muhabin- <muhabin-@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 19:16:18 by muhabin-          #+#    #+#             */
-/*   Updated: 2025/05/29 07:25:58 by muhabin-         ###   ########.fr       */
+/*   Updated: 2025/05/30 12:04:15 by muhabin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+char	*get_path(char *line, int mode)
+{
+	char	*path;
+	int		i;
+
+	i = 0;
+	while (ft_isspace(line[i]))
+		i++;
+	path = ft_strdup(line + i);
+	if (!path)
+		exit_error("Malloc failed")
+	if (ft_strnstr(path + ft_strlen(path) - 4, ".xpm", 4)) == 0)
+		exit_error(..);
+	return (path);
+
+}
 void	parsing_map(t_data *data, char *line, int i)
 {
 	if (ft_strncmp(line + i, "NO", 2) == 0)
-		texture_check(...);
+		texture_check(data, get_path(line + i, TEX), NORTH);
 	else if (ft_strncmp(line + i, "SO", 2) == 0)
 		texture_check(...);
 	else if (ft_strncmp(line + i, "WE", 2) == 0)
@@ -30,7 +46,6 @@ void	parsing_map(t_data *data, char *line, int i)
 		data->map_start = 1;
 	else if (line[i] != '\0')
 		exit_error(data, "Invalid params");
-
 }
 // WILL BE REFACTOR LATER SO CAN SEPARATE THE .cub TEXTURE AND MAP
 int	readmap(t_data *data)
@@ -105,3 +120,4 @@ int	map_read(t_data *data, char *argv)
 	boleh ada multiple island tapi player x boleh cross
 
 */
+
