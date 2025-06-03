@@ -6,7 +6,7 @@
 /*   By: muhabin- <muhabin-@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 19:14:14 by ayeap             #+#    #+#             */
-/*   Updated: 2025/05/30 09:53:26 by muhabin-         ###   ########.fr       */
+/*   Updated: 2025/06/03 15:06:16 by muhabin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,10 @@ typedef struct s_map
 	int		fd; //fd for opening the map
 	int		line_map; // how many lines inside the map files
 	char	**file;
+	char	*north;
+	char	*south;
+	char	*west;
+	char	*east;
 
 } t_map;
 

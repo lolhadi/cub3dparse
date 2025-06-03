@@ -6,15 +6,29 @@
 /*   By: muhabin- <muhabin-@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 19:16:18 by muhabin-          #+#    #+#             */
-/*   Updated: 2025/05/30 12:04:15 by muhabin-         ###   ########.fr       */
+/*   Updated: 2025/06/03 15:11:58 by muhabin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+void	texture_check(t_data *data, char *line, int dir)
+{
+	if (dir == NORTH && !data->map_info.north)
+		data->map_info.north = ft_strdup(line);
+	else if (dir == SOUTH && !data->map_info.south)
+		data->map_info.south = ft_strdup(line);
+	else if (dir == WEST && !data->map_info.west)
+		data->map_info.west = ft_strdup(line);
+	else if (dir == EAST && !data->map_info.east)
+		data->map_info.east = ft_strdup(line);
+	else
+		exit_error("Duplicating failed");
+}
 char	*get_path(char *line, int mode)
 {
 	char	*path;
+	char	*trim;
 	int		i;
 
 	i = 0;
@@ -22,11 +36,17 @@ char	*get_path(char *line, int mode)
 		i++;
 	path = ft_strdup(line + i);
 	if (!path)
-		exit_error("Malloc failed")
-	if (ft_strnstr(path + ft_strlen(path) - 4, ".xpm", 4)) == 0)
-		exit_error(..);
-	return (path);
-
+		exit_error("Malloc failed");
+	trim = ft_strtrim(path, " \n\t\r");
+	free(path);
+	if (!trim)
+		exit_error("trimmed failed");
+	if (mode == TEX)
+	{
+		if (ft_strlen(trim) < 4 || !ft_strnstr(trim + ft_strlen(trim) - 4, ".xpm", 4));
+			exit_error("Invalid texture file");
+	}
+	return (trim);
 }
 void	parsing_map(t_data *data, char *line, int i)
 {
