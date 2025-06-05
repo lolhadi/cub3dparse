@@ -6,14 +6,46 @@
 /*   By: muhabin- <muhabin-@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 19:16:18 by muhabin-          #+#    #+#             */
-/*   Updated: 2025/06/03 15:11:58 by muhabin-         ###   ########.fr       */
+/*   Updated: 2025/06/05 14:52:53 by muhabin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+void	color_check(t_data *data, char *line, int mode)
+{
+	int		i;
+	int		j;
+	char	*trim;
+	char	**rgb;
+
+	i = 0;
+	j = 0;
+	while (ft_isspace(line[i]))
+		i++;
+	trim = ft_strdup(line + i);
+	if (!trim)
+		error_exit("failed to copy");
+	rgb = ft_split(trim, ',');
+	if (!valid_color(rgb[i]))
+		exit_error("wrong color");
+	//
+
+
+}
+
+void	can_open_file(t_data, char *file, int fd)
+{
+	fd = open(file, O_RDONLY);
+	if (fd < 0)
+		exit_error("File cannot be open");
+	close(fd);
+}
+
 void	texture_check(t_data *data, char *line, int dir)
 {
+	//need to add check if the texture file can be open
+	can_open_file(data, line, 0);
 	if (dir == NORTH && !data->map_info.north)
 		data->map_info.north = ft_strdup(line);
 	else if (dir == SOUTH && !data->map_info.south)
@@ -53,11 +85,11 @@ void	parsing_map(t_data *data, char *line, int i)
 	if (ft_strncmp(line + i, "NO", 2) == 0)
 		texture_check(data, get_path(line + i, TEX), NORTH);
 	else if (ft_strncmp(line + i, "SO", 2) == 0)
-		texture_check(...);
+		texture_check(data, get_path(line + i, TEX), SOUTH);
 	else if (ft_strncmp(line + i, "WE", 2) == 0)
-		texture_check(...);
+		texture_check(data, get_path(line + i, TEX), WEST);
 	else if (ft_strncmp(line + i, "EA", 2) == 0)
-		texture_check(...);
+		texture_check(data, get_path(line + i, TEX), EAST);
 	else if (ft_strncmp(line + i, "F", 1) == 0)
 		color_check(...);
 	else if (ft_strncmp(line + i, "C", 1) == 0)
