@@ -6,12 +6,18 @@
 /*   By: muhabin- <muhabin-@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 10:47:07 by muhabin-          #+#    #+#             */
-/*   Updated: 2025/05/28 10:44:18 by muhabin-         ###   ########.fr       */
+/*   Updated: 2025/06/10 13:10:36 by muhabin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+
+void	init_data(t_data *data)
+{
+	data->map_info.ceiling = -1;
+	data->map_info.floor = -1;
+}
 int main(int argc, char **argv)
 {
 	t_data	data;
@@ -29,9 +35,9 @@ int main(int argc, char **argv)
 	if (map_read(&data, argv[1]) != 0)
 		return (1);
 
-	TODO: Setting up error handling
+	//TODO: Setting up error handling
 	//TODO: Create initialize data
-	init_data; //can use ft_bzero to initiliaze data
+	init_data(&data); //can use ft_bzero to initiliaze data
 	//TODO: Connect to the mlx function
 	init_mlx_stuff; //can addon later
 	mlx = mlx_init();

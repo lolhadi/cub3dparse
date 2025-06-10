@@ -6,12 +6,69 @@
 /*   By: muhabin- <muhabin-@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 19:16:18 by muhabin-          #+#    #+#             */
-/*   Updated: 2025/06/05 14:52:53 by muhabin-         ###   ########.fr       */
+/*   Updated: 2025/06/10 15:16:06 by muhabin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../inc/cub3d.h"
 
+//can be in the utils
+void	free_array(char **str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		free(str[i]);
+		i++;
+	}
+	free(str);
+}
+void	save_color(t_data * data,char **rgb, int mode)
+{
+	int	r;
+	int	g;
+	int	b;
+	unsigned int	color;
+
+	r = ft_atoi(rgb[0]);
+	g = ft_atoi(rgb[1]);
+	b = ft_atoi(rgb[2]);
+
+	color = (r << 16 | g << 8 | b);
+	if (mode == FLOOR && data->map_info.floor == -1)
+		data->map_info.floor = color;
+	else if (mode == CEILING && data->map_info.ceiling == -1)
+		data->map_info.ceiling = color;
+	else
+		exit_error("duping color failed");
+}
+int	valid_color(char **rgb)
+{
+	int	i;
+	int	j;
+	int	value;
+
+	if (!rgb[0] || !rgb[1] || !rgb[2] || rgb[3])
+		return (0);
+	i = 0;
+	while(i < 3)
+	{
+		j = 0;
+		while (rgb[i][j])
+		{
+			if (!ft_isdigit(rgb[i][j]))
+				return (0);
+			j++;
+		}
+		value = ft_atoi(rgb[i]);
+		if (value < 0 || value > 255)
+			return (0);
+		i++;
+	}
+	return (1);
+}
 void	color_check(t_data *data, char *line, int mode)
 {
 	int		i;
@@ -27,14 +84,14 @@ void	color_check(t_data *data, char *line, int mode)
 	if (!trim)
 		error_exit("failed to copy");
 	rgb = ft_split(trim, ',');
-	if (!valid_color(rgb[i]))
+	if (!valid_color(rgb))
 		exit_error("wrong color");
-	//
-
-
+	save_color(data, rgb, mode);
+	free(trim);
+	free_array(rgb);
 }
 
-void	can_open_file(t_data, char *file, int fd)
+void	can_open_file(t_data *data, char *file, int fd)
 {
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
@@ -80,7 +137,7 @@ char	*get_path(char *line, int mode)
 	}
 	return (trim);
 }
-void	parsing_map(t_data *data, char *line, int i)
+void	parsing_config(t_data *data, char *line, int i)
 {
 	if (ft_strncmp(line + i, "NO", 2) == 0)
 		texture_check(data, get_path(line + i, TEX), NORTH);
@@ -91,9 +148,9 @@ void	parsing_map(t_data *data, char *line, int i)
 	else if (ft_strncmp(line + i, "EA", 2) == 0)
 		texture_check(data, get_path(line + i, TEX), EAST);
 	else if (ft_strncmp(line + i, "F", 1) == 0)
-		color_check(...);
+		color_check(data, line + i, FLOOR);
 	else if (ft_strncmp(line + i, "C", 1) == 0)
-		color_check(...);
+		color_check(data, line + i, CEILING);
 	else if (line[i] == '1' || line[i] == '0')
 		data->map_start = 1;
 	else if (line[i] != '\0')
@@ -111,7 +168,7 @@ int	readmap(t_data *data)
 		i = 0;
 		while (ft_isspace(line[i]))
 			i++;
-		parsing_map(data, line, i);
+		parsing_config(data, line, i);
 		if (data->map_start)
 		{
 			free(line);
@@ -120,6 +177,9 @@ int	readmap(t_data *data)
 		free(line);
 		line = get_next_line(data->map_info.fd);
 	}
+	if (everything_good(data));
+		exit_error("Wrong Configuration");
+	parse_map(data);
 	return (0);
 }
 int	count_line(char *map)

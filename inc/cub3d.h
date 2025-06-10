@@ -6,14 +6,14 @@
 /*   By: muhabin- <muhabin-@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 19:14:14 by ayeap             #+#    #+#             */
-/*   Updated: 2025/06/03 15:06:16 by muhabin-         ###   ########.fr       */
+/*   Updated: 2025/06/10 12:38:53 by muhabin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include "../minilibx-linux/mlx.h"
+// # include "../minilibx-linux/mlx.h"
 # include "../library/inc/libft.h"
 
 # include <stdio.h> // open, close, read, printf, perror
@@ -40,14 +40,15 @@
 
 typedef struct s_map
 {
-	int		fd; //fd for opening the map
-	int		line_map; // how many lines inside the map files
-	char	**file;
-	char	*north;
-	char	*south;
-	char	*west;
-	char	*east;
-
+	int				fd; //fd for opening the map
+	int				line_map; // how many lines inside the map files
+	unsigned int	floor;
+	unsigned int	ceiling;
+	char			**file;
+	char			*north;
+	char			*south;
+	char			*west;
+	char			*east;
 } t_map;
 
 typedef struct s_data
