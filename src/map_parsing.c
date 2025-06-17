@@ -6,12 +6,24 @@
 /*   By: muhabin- <muhabin-@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 19:16:18 by muhabin-          #+#    #+#             */
-/*   Updated: 2025/06/10 15:16:06 by muhabin-         ###   ########.fr       */
+/*   Updated: 2025/06/17 09:28:59 by muhabin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
 
+void	parse_map(t_data *data)
+{
+	
+}
+int	everything_good(t_data *data)
+{
+	if (!data->map_info.east || !data->map_info.south || !data->map_info.west
+		|| !data->map_info.north || data->map_info.floor == -1
+		|| data->map_info.ceiling == -1)
+		return (1);
+	return (0);
+}
 //can be in the utils
 void	free_array(char **str)
 {
@@ -177,7 +189,7 @@ int	readmap(t_data *data)
 		free(line);
 		line = get_next_line(data->map_info.fd);
 	}
-	if (everything_good(data));
+	if (everything_good(data))
 		exit_error("Wrong Configuration");
 	parse_map(data);
 	return (0);
@@ -189,6 +201,7 @@ int	count_line(char *map)
 	char	*line;
 
 	count = 0;
+
 	fd = open(map, O_RDONLY);
 	if (fd < 0)
 		return (error_msg("failed to open", 2));

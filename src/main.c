@@ -6,7 +6,7 @@
 /*   By: muhabin- <muhabin-@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 10:47:07 by muhabin-          #+#    #+#             */
-/*   Updated: 2025/06/10 13:10:36 by muhabin-         ###   ########.fr       */
+/*   Updated: 2025/06/17 09:44:23 by muhabin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int main(int argc, char **argv)
 	//TODO: Create initialize data
 	init_data(&data); //can use ft_bzero to initiliaze data
 	//TODO: Connect to the mlx function
-	init_mlx_stuff; //can addon later
+	// init_mlx_stuff; //can addon later
 	mlx = mlx_init();
 	mlx_win = mlx_new_window(mlx, 1920, 1080, "Hello world");
 	mlx_loop(mlx);
