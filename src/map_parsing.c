@@ -6,7 +6,7 @@
 /*   By: muhabin- <muhabin-@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 19:16:18 by muhabin-          #+#    #+#             */
-/*   Updated: 2025/06/17 09:28:59 by muhabin-         ###   ########.fr       */
+/*   Updated: 2025/06/18 11:18:10 by muhabin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	parse_map(t_data *data)
 {
-	
+
 }
 int	everything_good(t_data *data)
 {
@@ -221,21 +221,16 @@ int	count_line(char *map)
 }
 int	map_read(t_data *data, char *argv)
 {
-	t_map	maps;
-
 	//TODO: using gnl to take the .cub so can do parsing map
 	//count line of map so can malloc later
-	maps.line_map = count_line(argv);
+	data->map_info.line_map = count_line(argv);
 	//need to save the path name/file name may not needed
 	// need to malloc so can create a space for the map to be copied
-	maps.file = malloc(maps.line_map + 1 * sizeof(char *));
-	if (!maps.file)
-		return (error_msg("failed to malloc", 2));
-	maps.fd = open(argv, O_RDONLY);
-	if (maps.fd < 0)
+	data->map_info.fd = open(argv, O_RDONLY);
+	if (data->map_info.fd < 0)
 		return (error_msg("failed to open",2));
 	readmap(data);
-	close(maps.fd);
+	close(data->map_info.fd);
 	return (0);
 }
 
