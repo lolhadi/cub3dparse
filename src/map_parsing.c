@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_parsing.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: muhabin- <muhabin-@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: muhabin- <muhabin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 19:16:18 by muhabin-          #+#    #+#             */
-/*   Updated: 2025/06/17 09:28:59 by muhabin-         ###   ########.fr       */
+/*   Updated: 2025/06/24 07:08:49 by muhabin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,26 @@
 
 void	parse_map(t_data *data)
 {
-	
+	int		i;
+	char	*line;
+
+	i = 0;
+	data->map_info.file = ft_calloc(data->map_info.line_map + 1,
+			sizeof(char *));
+	if (!data->map_info.file)
+		exit_error("failed to malloc");
+	line = get_next_line(data->map_info.fd);
+	while(line)
+	{
+		//so kena ada check for empty line (trimeed spaces)
+		// kalau enclosed map
+		// valid characters, and dup?
+		//check player positoon and direction
+		// if semua okay save map dlm struct
+		data->map_info.file[i++] = line;
+		line = get_next_line(...);
+	}
+	data->map_info.file[i] == NULL;
 }
 int	everything_good(t_data *data)
 {
