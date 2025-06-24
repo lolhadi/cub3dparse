@@ -6,7 +6,7 @@
 /*   By: muhabin- <muhabin-@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 19:14:14 by ayeap             #+#    #+#             */
-/*   Updated: 2025/06/10 12:38:53 by muhabin-         ###   ########.fr       */
+/*   Updated: 2025/06/24 10:44:08 by muhabin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_map
 	char			*south;
 	char			*west;
 	char			*east;
+	int				empty_line;
 } t_map;
 
 typedef struct s_data

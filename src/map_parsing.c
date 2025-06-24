@@ -6,7 +6,7 @@
 /*   By: muhabin- <muhabin-@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 19:16:18 by muhabin-          #+#    #+#             */
-/*   Updated: 2025/06/18 11:18:10 by muhabin-         ###   ########.fr       */
+/*   Updated: 2025/06/24 13:18:17 by muhabin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,30 @@
 
 void	parse_map(t_data *data)
 {
+	int		i;
+	char	*line;
+	char 	**map_copy;
 
+	i = 0;
+	data->map_info.file = ft_calloc(data->map_info.line_map + 1,
+			sizeof(char *));
+	if (!data->map_info.file)
+		exit_error("failed to malloc");
+	line = get_next_line(data->map_info.fd);
+	while(line)
+	{
+		data->map_info.file[i] = ft_strdup(line);
+		if (!data->map_info.file[i])
+			exit_error("failed malloc map");
+		i++;
+		free(line);
+		line = get_next_line(data->map_info.fd);
+	}
+	data->map_info.file[i] = NULL;
+	map_copy = copy_map(data->map_info.file);
+	
 }
+
 int	everything_good(t_data *data)
 {
 	if (!data->map_info.east || !data->map_info.south || !data->map_info.west
@@ -240,4 +262,3 @@ int	map_read(t_data *data, char *argv)
 	boleh ada multiple island tapi player x boleh cross
 
 */
-
