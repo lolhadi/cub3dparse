@@ -6,7 +6,7 @@
 /*   By: muhabin- <muhabin-@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 19:14:14 by ayeap             #+#    #+#             */
-/*   Updated: 2025/06/24 10:44:08 by muhabin-         ###   ########.fr       */
+/*   Updated: 2025/06/25 12:53:24 by muhabin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@
 typedef struct s_map
 {
 	int				fd; //fd for opening the map
-	int				line_map; // how many lines inside the map files
+	int				line_cub; // how many lines inside the map files
 	unsigned int	floor;
 	unsigned int	ceiling;
 	char			**file;

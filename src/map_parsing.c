@@ -6,12 +6,34 @@
 /*   By: muhabin- <muhabin-@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 19:16:18 by muhabin-          #+#    #+#             */
-/*   Updated: 2025/06/24 13:18:17 by muhabin-         ###   ########.fr       */
+/*   Updated: 2025/06/25 13:28:57 by muhabin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
 
+char	**copy_map(char **map)
+{
+	char	**copy;
+	int		lines;
+	int		i;
+
+	i = 0;
+	while (map[lines])
+		lines++;
+	copy = ft_calloc(lines + 1, sizeof(char *));
+	if (!copy)
+		exit_error("failed to malloc");
+	while (map[i])
+	{
+		copy[i] = ft_strdup(map[i]);
+		if (!copy[i])
+			exit_error("bro failed to make copy map");
+		i++;
+	}
+	copy[i] = NULL;
+	return (copy);
+}
 void	parse_map(t_data *data)
 {
 	int		i;
@@ -19,7 +41,7 @@ void	parse_map(t_data *data)
 	char 	**map_copy;
 
 	i = 0;
-	data->map_info.file = ft_calloc(data->map_info.line_map + 1,
+	data->map_info.file = ft_calloc(data->map_info.line_cub + 1,
 			sizeof(char *));
 	if (!data->map_info.file)
 		exit_error("failed to malloc");
@@ -35,7 +57,7 @@ void	parse_map(t_data *data)
 	}
 	data->map_info.file[i] = NULL;
 	map_copy = copy_map(data->map_info.file);
-	
+
 }
 
 int	everything_good(t_data *data)
@@ -245,7 +267,7 @@ int	map_read(t_data *data, char *argv)
 {
 	//TODO: using gnl to take the .cub so can do parsing map
 	//count line of map so can malloc later
-	data->map_info.line_map = count_line(argv);
+	data->map_info.line_cub = count_line(argv);
 	//need to save the path name/file name may not needed
 	// need to malloc so can create a space for the map to be copied
 	data->map_info.fd = open(argv, O_RDONLY);
