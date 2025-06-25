@@ -6,12 +6,28 @@
 /*   By: muhabin- <muhabin-@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 19:16:18 by muhabin-          #+#    #+#             */
-/*   Updated: 2025/06/25 13:54:05 by muhabin-         ###   ########.fr       */
+/*   Updated: 2025/06/25 14:14:33 by muhabin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
 
+void	main_parse(t_data *data, char **map_copy)
+{
+	int	i;
+	int	j;
+
+	//TODO: check for empty line between map, inside map okay
+	i = 0;
+	while (map_copy[i])
+	{
+		j= 0;
+		if (map_copy[i[j]] == ' ' || ....)
+			exit_error("invalid map");
+		j++;
+	}
+	i++;
+}
 char	**copy_map(char **map)
 {
 	char	**copy;
@@ -57,6 +73,7 @@ void	parse_map(t_data *data)
 	}
 	data->map_info.file[i] = NULL;
 	map_copy = copy_map(data->map_info.file);
+	main_parse(data, map_copy);
 
 }
 
