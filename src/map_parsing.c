@@ -6,7 +6,7 @@
 /*   By: muhabin- <muhabin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 19:16:18 by muhabin-          #+#    #+#             */
-/*   Updated: 2025/06/24 07:08:49 by muhabin-         ###   ########.fr       */
+/*   Updated: 2025/06/25 13:49:55 by muhabin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -247,9 +247,6 @@ int	map_read(t_data *data, char *argv)
 	maps.line_map = count_line(argv);
 	//need to save the path name/file name may not needed
 	// need to malloc so can create a space for the map to be copied
-	maps.file = malloc(maps.line_map + 1 * sizeof(char *));
-	if (!maps.file)
-		return (error_msg("failed to malloc", 2));
 	maps.fd = open(argv, O_RDONLY);
 	if (maps.fd < 0)
 		return (error_msg("failed to open",2));
