@@ -3,30 +3,60 @@
 /*                                                        :::      ::::::::   */
 /*   map_parsing.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: muhabin- <muhabin-@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: muhabin- <muhabin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 19:16:18 by muhabin-          #+#    #+#             */
-/*   Updated: 2025/06/25 14:14:33 by muhabin-         ###   ########.fr       */
+/*   Updated: 2025/07/02 10:54:10 by muhabin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
 
+void	valid_char(t_data *data, char **map_copy)
+{
+	int		i;
+	int		j;
+	char	c;
+
+	i = 0;
+	while (map_copy[i])
+	{
+		j = 0;
+		while (map_copy[i][j])
+		{
+			c = map_copy[i][j];
+			if (c != '0' && c != '1' && c != '0' && c != 'N' && c != 'S'
+				&& c != 'E' && c != 'W' && c != ' ')
+				exit_error("Error Invalid Characters");
+			j++;
+		}
+		i++;
+	}
+}
 void	main_parse(t_data *data, char **map_copy)
 {
 	int	i;
 	int	j;
+	int	only_space;
 
-	//TODO: check for empty line between map, inside map okay
 	i = 0;
 	while (map_copy[i])
 	{
-		j= 0;
-		if (map_copy[i[j]] == ' ' || ....)
-			exit_error("invalid map");
-		j++;
+		j = 0;
+		only_space = 1; // assume that the line is all space first
+		while (map_copy[i][j])
+		{
+			if (map_copy[i][j] != ' ' && map_copy[i][j] != '\t' && map_copy[i][j] != '\n')
+			{
+				only_space = 0; //found a character means the whole line tak semua space\
+				break;
+			}
+			j++;
+		}
+		if (only_space)
+				exit_error("invalid map");
+		i++;
 	}
-	i++;
 }
 char	**copy_map(char **map)
 {
@@ -74,7 +104,7 @@ void	parse_map(t_data *data)
 	data->map_info.file[i] = NULL;
 	map_copy = copy_map(data->map_info.file);
 	main_parse(data, map_copy);
-
+	valid_char(data, map_copy);
 }
 
 int	everything_good(t_data *data)
