@@ -6,7 +6,7 @@
 /*   By: muhabin- <muhabin-@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 19:14:14 by ayeap             #+#    #+#             */
-/*   Updated: 2025/06/25 12:53:24 by muhabin-         ###   ########.fr       */
+/*   Updated: 2025/07/02 12:28:05 by muhabin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,22 @@ typedef struct s_map
 	char			*west;
 	char			*east;
 	int				empty_line;
-} t_map;
+
+}	t_map;
+
+typedef struct s_player
+{
+	int				player_x;
+	int				player_y;
+	char			p_direction;
+}	t_player;
 
 typedef struct s_data
 {
-	char	**maps; // an 2d array of map
-	int		map_start;
-	t_map	map_info;
+	char		**maps; // an 2d array of map
+	int			map_start;
+	t_map		map_info;
+	t_player	player;
 
 }	t_data;
 

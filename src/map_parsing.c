@@ -3,14 +3,56 @@
 /*                                                        :::      ::::::::   */
 /*   map_parsing.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: muhabin- <muhabin-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: muhabin- <muhabin-@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 19:16:18 by muhabin-          #+#    #+#             */
-/*   Updated: 2025/07/02 10:54:10 by muhabin-         ###   ########.fr       */
+/*   Updated: 2025/07/03 14:47:19 by muhabin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
+
+void	flood_fill(t_data *data, char **map, int x, int y)
+{
+	if (x < 0 || y < 0 || !map[x] || y >= (int)ft_strlen(map[x]))
+}
+void	count_check(int count)
+{
+	if (count == 0)
+		exit_error("Error: No player detected");
+	if (count > 1)
+		exit_error("Error: Multiple Player");
+}
+//TODO: need to change to original map
+
+void	find_player(t_data *data, char **copy_map)
+{
+	int	i;
+	int	j;
+	int	count;
+
+	i = -1;
+	count = 0;
+	while (copy_map[++i])
+	{
+		j = 0;
+		while (copy_map[i][j])
+		{
+			if (copy_map[i][j] == 'N' || copy_map[i][j] == 'S'
+				|| copy_map[i][j] == 'E' || copy_map[i][j] == 'W')
+			{
+				data->player.player_x = i;
+				data->player.player_y = j;
+				data->player.p_direction = copy_map[i][j];
+				copy_map[i][j] = '0';
+				count++;
+				flood_fill(data, copy_map, i , j);
+			}
+			j++;
+		}
+	}
+	count_check(count);
+}
 
 void	valid_char(t_data *data, char **map_copy)
 {
@@ -25,7 +67,7 @@ void	valid_char(t_data *data, char **map_copy)
 		while (map_copy[i][j])
 		{
 			c = map_copy[i][j];
-			if (c != '0' && c != '1' && c != '0' && c != 'N' && c != 'S'
+			if (c != '0' && c != '1' && c != 'N' && c != 'S'
 				&& c != 'E' && c != 'W' && c != ' ')
 				exit_error("Error Invalid Characters");
 			j++;
@@ -48,7 +90,7 @@ void	main_parse(t_data *data, char **map_copy)
 		{
 			if (map_copy[i][j] != ' ' && map_copy[i][j] != '\t' && map_copy[i][j] != '\n')
 			{
-				only_space = 0; //found a character means the whole line tak semua space\
+				only_space = 0; //found a character means the whole line tak semua space
 				break;
 			}
 			j++;
@@ -80,6 +122,15 @@ char	**copy_map(char **map)
 	copy[i] = NULL;
 	return (copy);
 }
+/*
+ * NEED TO CHANGE
+ *	: JUST USED THE ORIGINAL MAP FOR MAIN PARSE,
+ *	: THEN USED THE ORIGINAL MAP TO VALID CHAR ALSO
+ *	: USED ORIGINAL MAP FOR FINDING THE PLAYER
+ *	: FILL THE MAP WITH (0) UNTIL THE MAXIMUM COLUMN, IT BE WELL FORMATED
+ *	: THEN COPY THE MAP
+ *	: FLOOD FILL USING COPY MAP
+*/
 void	parse_map(t_data *data)
 {
 	int		i;
@@ -105,6 +156,7 @@ void	parse_map(t_data *data)
 	map_copy = copy_map(data->map_info.file);
 	main_parse(data, map_copy);
 	valid_char(data, map_copy);
+	find_player(data, map_copy);
 }
 
 int	everything_good(t_data *data)
