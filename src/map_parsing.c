@@ -6,7 +6,7 @@
 /*   By: muhabin- <muhabin-@student.42kl.edu.my>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 19:16:18 by muhabin-          #+#    #+#             */
-/*   Updated: 2025/07/03 14:47:19 by muhabin-         ###   ########.fr       */
+/*   Updated: 2025/07/05 14:24:47 by muhabin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,8 @@ void	count_check(int count)
 	if (count > 1)
 		exit_error("Error: Multiple Player");
 }
-//TODO: need to change to original map
 
-void	find_player(t_data *data, char **copy_map)
+void	find_player(t_data *data, char **map)
 {
 	int	i;
 	int	j;
@@ -33,40 +32,40 @@ void	find_player(t_data *data, char **copy_map)
 
 	i = -1;
 	count = 0;
-	while (copy_map[++i])
+	while (map[++i])
 	{
 		j = 0;
-		while (copy_map[i][j])
+		while (map[i][j])
 		{
-			if (copy_map[i][j] == 'N' || copy_map[i][j] == 'S'
-				|| copy_map[i][j] == 'E' || copy_map[i][j] == 'W')
+			if (map[i][j] == 'N' || map[i][j] == 'S'
+				|| map[i][j] == 'E' || map[i][j] == 'W')
 			{
 				data->player.player_x = i;
 				data->player.player_y = j;
-				data->player.p_direction = copy_map[i][j];
-				copy_map[i][j] = '0';
+				data->player.p_direction = map[i][j];
 				count++;
-				flood_fill(data, copy_map, i , j);
 			}
+			if (map[i][j] != '1')
+				map[i][j] = '0';
 			j++;
 		}
 	}
 	count_check(count);
 }
 
-void	valid_char(t_data *data, char **map_copy)
+void	valid_char(t_data *data, char **map)
 {
 	int		i;
 	int		j;
 	char	c;
 
 	i = 0;
-	while (map_copy[i])
+	while (map[i])
 	{
 		j = 0;
-		while (map_copy[i][j])
+		while (map[i][j])
 		{
-			c = map_copy[i][j];
+			c = map[i][j];
 			if (c != '0' && c != '1' && c != 'N' && c != 'S'
 				&& c != 'E' && c != 'W' && c != ' ')
 				exit_error("Error Invalid Characters");
@@ -75,20 +74,31 @@ void	valid_char(t_data *data, char **map_copy)
 		i++;
 	}
 }
-void	main_parse(t_data *data, char **map_copy)
+void	main_parse2(t_data *data, char **map)
+{
+	char	**map_copy;
+
+	main_parse(data, data->map_info.file);
+	valid_char(data, data->map_info.file);
+	find_player(data, data->map_info.file);
+	map_copy = copy_map(data->map_info.file);
+	flood_fill(data, map_copy, data->player.player_x, data->player.player_y);
+	free(map_copy);
+}
+void	main_parse(t_data *data, char **map)
 {
 	int	i;
 	int	j;
 	int	only_space;
 
 	i = 0;
-	while (map_copy[i])
+	while (map[i])
 	{
 		j = 0;
 		only_space = 1; // assume that the line is all space first
-		while (map_copy[i][j])
+		while (map[i][j])
 		{
-			if (map_copy[i][j] != ' ' && map_copy[i][j] != '\t' && map_copy[i][j] != '\n')
+			if (map[i][j] != ' ' && map[i][j] != '\t' && map[i][j] != '\n')
 			{
 				only_space = 0; //found a character means the whole line tak semua space
 				break;
@@ -135,7 +145,6 @@ void	parse_map(t_data *data)
 {
 	int		i;
 	char	*line;
-	char 	**map_copy;
 
 	i = 0;
 	data->map_info.file = ft_calloc(data->map_info.line_cub + 1,
@@ -153,10 +162,8 @@ void	parse_map(t_data *data)
 		line = get_next_line(data->map_info.fd);
 	}
 	data->map_info.file[i] = NULL;
-	map_copy = copy_map(data->map_info.file);
-	main_parse(data, map_copy);
-	valid_char(data, map_copy);
-	find_player(data, map_copy);
+	// maybe buat separate funtion utk handle line
+	parse_map2(data, data->map_info.file);
 }
 
 int	everything_good(t_data *data)
