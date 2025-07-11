@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_parsing.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: muhabin- <muhabin-@student.42kl.edu.my>    +#+  +:+       +#+        */
+/*   By: muhabin- <muhabin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 19:16:18 by muhabin-          #+#    #+#             */
-/*   Updated: 2025/07/05 14:24:47 by muhabin-         ###   ########.fr       */
+/*   Updated: 2025/07/09 12:53:50 by muhabin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,46 @@ void	count_check(int count)
 	if (count > 1)
 		exit_error("Error: Multiple Player");
 }
+int	get_len(char **map)
+{
+	int	i;
+	int	max;
+	int	length;
 
+	i = -1;
+	max = 0;
+	while (map[++i])
+	{
+		length = ft_strlen(map[i]);
+		if (length > max)
+			max = length;
+	}
+	return (max);
+}
+void	pad_map(t_data *data, char **map)
+{
+	int		i;
+	int		j;
+	int		max_len;
+	char	*newline;
+
+	i = -1;
+	max_len = get_len(map);
+	while (map[++i])
+	{
+		newline = ft_calloc(get_len + 1, sizeof(char));
+		j = 0;
+		while (map[i][j])
+		{
+			newline[j] = map[i][j];
+			j++;
+		}
+		while (j < max_len)
+			newline[j++] = '0';
+		free(map[i]);
+		map[i] = newline;
+	}
+}
 void	find_player(t_data *data, char **map)
 {
 	int	i;
@@ -81,6 +120,7 @@ void	main_parse2(t_data *data, char **map)
 	main_parse(data, data->map_info.file);
 	valid_char(data, data->map_info.file);
 	find_player(data, data->map_info.file);
+	pad_map(data, data->map_info.file);
 	map_copy = copy_map(data->map_info.file);
 	flood_fill(data, map_copy, data->player.player_x, data->player.player_y);
 	free(map_copy);
@@ -165,7 +205,7 @@ void	parse_map(t_data *data)
 	// maybe buat separate funtion utk handle line
 	parse_map2(data, data->map_info.file);
 }
-
+//Check for if all configuration is stores
 int	everything_good(t_data *data)
 {
 	if (!data->map_info.east || !data->map_info.south || !data->map_info.west
@@ -231,6 +271,7 @@ int	valid_color(char **rgb)
 	}
 	return (1);
 }
+//Check for valid color
 void	color_check(t_data *data, char *line, int mode)
 {
 	int		i;
@@ -252,7 +293,7 @@ void	color_check(t_data *data, char *line, int mode)
 	free(trim);
 	free_array(rgb);
 }
-
+//check if the map files can be open
 void	can_open_file(t_data *data, char *file, int fd)
 {
 	fd = open(file, O_RDONLY);
@@ -260,7 +301,7 @@ void	can_open_file(t_data *data, char *file, int fd)
 		exit_error("File cannot be open");
 	close(fd);
 }
-
+//Check the texture data and stores its in struct
 void	texture_check(t_data *data, char *line, int dir)
 {
 	//need to add check if the texture file can be open
@@ -276,6 +317,7 @@ void	texture_check(t_data *data, char *line, int dir)
 	else
 		exit_error("Duplicating failed");
 }
+// Checking the map files is in .xpm
 char	*get_path(char *line, int mode)
 {
 	char	*path;
@@ -299,6 +341,7 @@ char	*get_path(char *line, int mode)
 	}
 	return (trim);
 }
+// Parsing Configuration
 void	parsing_config(t_data *data, char *line, int i)
 {
 	if (ft_strncmp(line + i, "NO", 2) == 0)
@@ -369,6 +412,7 @@ int	count_line(char *map)
 	}
 	return (count);
 }
+//main map function
 int	map_read(t_data *data, char *argv)
 {
 	//TODO: using gnl to take the .cub so can do parsing map
